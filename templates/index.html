@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seat Booking</title>
+</head>
+<body>
+
+    <h1>Seat Booking</h1>
+    
+    <div id="seats" style="display: flex; flex-wrap: wrap;"></div>
+    <form id="booking-form">
+        <label for="num-seats">Number of Seats:</label>
+        <input type="number" id="num-seats" name="num_seats" min="1" max="7" required>
+        <button type="submit">Book Seats</button>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const seatsDiv = document.getElementById('seats');
+            const numSeats = 80;
+
+            // Initialize seats: Creates seat elements and adds them to the DOM.
+            for (let i = 1; i <= numSeats; i++) {
+                const seatDiv = document.createElement('div');
+                seatDiv.classList.add('seat');
+                seatDiv.textContent = i;
+                seatDiv.style.width = '30px';
+                seatDiv.style.height = '30px';
+                seatDiv.style.border = '1px solid #000';
+                seatDiv.style.textAlign = 'center';
+                seatDiv.style.lineHeight = '30px';
+                seatDiv.style.margin = '5px';
+                seatsDiv.appendChild(seatDiv);
+            }
+
+            // Function to reserve seats: Marks selected seats as reserved and returns their numbers.
+            const reserveSeats = (numSeats) => {
+                const reservedSeats = [];
+                let count = 0;
+                for (let i = 0; i < seatsDiv.children.length; i++) {
+                    const seatDiv = seatsDiv.children[i];
+                    if (seatDiv.style.backgroundColor !== 'red') {
+                        seatDiv.style.backgroundColor = 'red';
+                        reservedSeats.push(seatDiv.textContent);
+                        count++;
+                        if (count >= numSeats) break;
+                    }
+                }
+                return reservedSeats;
+            };
+
+            // Form submission: Handles form submission to reserve seats.
+            const form = document.getElementById('booking-form');
+            form.addEventListener('submit', event => {
+                event.preventDefault();
+                const numSeats = parseInt(document.getElementById('num-seats').value);
+                const reservedSeats = reserveSeats(numSeats);
+                if (reservedSeats.length > 0) {
+                    alert(`Seats Reserved: ${reservedSeats.join(', ')}`);
+                } else {
+                    alert('Sorry, seats not available. Please try again with a smaller number of seats.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

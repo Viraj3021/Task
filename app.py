@@ -42,4 +42,4 @@ def reserve():
 
 if __name__ == '__main__':
     # Run the Flask application in debug mode.
-    app.run(debug=Flase, host='0.0.0.0')
+    app.run(debug=True)
